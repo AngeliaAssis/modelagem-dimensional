@@ -1,0 +1,94 @@
+CREATE TABLE `Professor`
+(
+ `idProfessor`    int NOT NULL ,
+ `idDepartamento` int NOT NULL ,
+
+PRIMARY KEY (`idProfessor`)
+);
+
+
+CREATE TABLE `Departamento`
+(
+ `idDepartamento`          int NOT NULL ,
+ `idProfessor_coordenador` int NOT NULL ,
+ `Nome`                    varchar(45) NOT NULL ,
+ `Campus`                  varchar(45) NOT NULL ,
+
+PRIMARY KEY (`idDepartamento`),
+KEY `FK_1` (`idProfessor_coordenador`),
+CONSTRAINT `FK_1` FOREIGN KEY `FK_1` (`idProfessor_coordenador`) REFERENCES `Professor` (`idProfessor`)
+);
+
+
+CREATE TABLE `Disciplina`
+(
+ `idDisciplina` int NOT NULL ,
+ `idProfessor`  int NOT NULL ,
+
+PRIMARY KEY (`idDisciplina`),
+KEY `FK_1` (`idProfessor`),
+CONSTRAINT `FK_10` FOREIGN KEY `FK_1` (`idProfessor`) REFERENCES `Professor` (`idProfessor`)
+);
+
+
+CREATE TABLE `Curso`
+(
+ `idCurso`        int NOT NULL ,
+ `idDepartamento` int NOT NULL ,
+
+PRIMARY KEY (`idCurso`),
+KEY `FK_1` (`idDepartamento`),
+CONSTRAINT `FK_9` FOREIGN KEY `FK_1` (`idDepartamento`) REFERENCES `Departamento` (`idDepartamento`)
+);
+
+
+CREATE TABLE `Disciplina & Curso`
+(
+ `idDisciplina` int NOT NULL ,
+ `idCurso`      int NOT NULL ,
+
+KEY `FK_1` (`idDisciplina`),
+CONSTRAINT `FK_7` FOREIGN KEY `FK_1` (`idDisciplina`) REFERENCES `Disciplina` (`idDisciplina`),
+KEY `FK_2` (`idCurso`),
+CONSTRAINT `FK_8` FOREIGN KEY `FK_2` (`idCurso`) REFERENCES `Curso` (`idCurso`)
+);
+
+CREATE TABLE `Pré-requisitos`
+(
+ `idPré-requisitos` int NOT NULL ,
+
+PRIMARY KEY (`idPré-requisitos`)
+);
+
+CREATE TABLE `Pré-requisitos das disciplinas`
+(
+ `idDisciplina`     int NOT NULL ,
+ `idPré-requisitos` int NOT NULL ,
+
+KEY `FK_1` (`idDisciplina`),
+CONSTRAINT `FK_5` FOREIGN KEY `FK_1` (`idDisciplina`) REFERENCES `Disciplina` (`idDisciplina`),
+KEY `FK_2` (`idPré-requisitos`),
+CONSTRAINT `FK_6` FOREIGN KEY `FK_2` (`idPré-requisitos`) REFERENCES `Pré-requisitos` (`idPré-requisitos`)
+);
+
+CREATE TABLE `Aluno`
+(
+ `idAluno` int NOT NULL ,
+
+PRIMARY KEY (`idAluno`)
+);
+
+CREATE TABLE `Matriculado`
+(
+ `idAluno`      int NOT NULL ,
+ `idDisciplina` int NOT NULL ,
+
+KEY `FK_1` (`idAluno`),
+CONSTRAINT `FK_3` FOREIGN KEY `FK_1` (`idAluno`) REFERENCES `Aluno` (`idAluno`),
+KEY `FK_2` (`idDisciplina`),
+CONSTRAINT `FK_4` FOREIGN KEY `FK_2` (`idDisciplina`) REFERENCES `Disciplina` (`idDisciplina`)
+);
+
+
+alter table Professor add  FOREIGN KEY (`idDepartamento`) REFERENCES `Departamento` (`idDepartamento`);
+
